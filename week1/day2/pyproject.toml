@@ -1,0 +1,14 @@
+[project]
+<<<<<<< HEAD
+name = "day2"
+=======
+name = "day1"
+>>>>>>> 2edc376828b4460bf969be073615bf2abbd60bfe
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "groq>=1.5.0",
+    "python-dotenv>=1.2.2",
+]
