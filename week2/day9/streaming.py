@@ -12,9 +12,7 @@ if not my_api_key:
 client = Groq(api_key=my_api_key)
 model= ("llama-3.3-70b-versatile")
 
-prompt = """
-how does the internet work ?
-"""
+prompt = """how does the internet work ?"""
 
 message = {
     "role":"user",

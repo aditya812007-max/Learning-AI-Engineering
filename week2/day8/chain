@@ -60,7 +60,7 @@ def ask_llm(system_prompt, user_prompt):
 def step1_resume_exractor(RESUME):
     print("STEP 1")
     system_prompt = """
-    You are a professional HR assistant. Extract the skills from the candidates resume provided.
+    You are a professional HR assistant. Extract the skills from the candidates resume provided
     Only return the skills no other information. Do not invent any skillsby yourself.
     Output Format:
     Skills should be separated by commas. Just return comma separated skills do not return any other filler information
