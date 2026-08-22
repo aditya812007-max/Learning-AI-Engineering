@@ -12,7 +12,35 @@ client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 model = "llama-3.3-70b-versatile"
 
-app=FastAPI()
+app= FastAPI()
+
+# after app = FastAPI()
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://monumental-bunny-d8b305.netlify.app",  # your live frontend
+        "http://127.0.0.1:5500",  # local dev, if you use Live Server — adjust to whatever you use
+    ],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# cache resume at startup instead of on every request
+RESUME_PATH = Path(__file__).parent / "Aditya_Biswal_ATS_Resume.pdf"
+cached_resume: Resume | None = None
+
+@app.on_event("startup")
+def load_resume():
+    global cached_resume
+    resume_text = read_pdf(RESUME_PATH)
+    cached_resume = parse_resume(resume_text)
+
+@app.post("/chat")
+def chat(request: ChatRequest):
+    answer = ask_candidate(request.question, cached_resume)
+    return {"answer": answer}
 
 #parsing the resume
 class Experience(BaseModel):
