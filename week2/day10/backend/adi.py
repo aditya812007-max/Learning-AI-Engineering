@@ -8,6 +8,30 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 load_dotenv()
 
+class Experience(BaseModel):
+    company : str | None = None
+    role : str | None = None
+    duraction : str | None = None
+    description : str | None = None
+    skills_used : list[str] = []
+
+class Resume(BaseModel):
+    name : str | None = None
+    email : str | None = None
+    phone : str | None = None
+
+    total_experience_years : float | None = None
+
+    skills : list[str] = []
+    experience : list[str] = []
+    education : list[str] = []
+    project : list[str] = []
+    Certificate : list[str] = []
+resume_schema = Resume.model_json_schema()    
+
+class ChatRequest(BaseModel):
+    question : str
+
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 model = "llama-3.3-70b-versatile"
@@ -42,31 +66,6 @@ def chat(request: ChatRequest):
     answer = ask_candidate(request.question, cached_resume)
     return {"answer": answer}
 
-#parsing the resume
-class Experience(BaseModel):
-    company : str | None = None
-    role : str | None = None
-    duraction : str | None = None
-    description : str | None = None
-    skills_used : list[str] = []
-
-class Resume(BaseModel):
-    name : str | None = None
-    email : str | None = None
-    phone : str | None = None
-
-    total_experience_years : float | None = None
-
-    skills : list[str] = []
-    experience : list[str] = []
-    education : list[str] = []
-    project : list[str] = []
-    Certificate : list[str] = []
-resume_schema = Resume.model_json_schema()    
-
-class ChatRequest(BaseModel):
-    question : str
-    
 def parse_resume(resume_text):
     system_prompt = f"""
     #ROLE
@@ -182,11 +181,4 @@ def read_pdf(file_path):
 @app.get("/")
 def home():
     return{"message":"this is a home page"}
-
-@app.post("/chat")
-def chat(request:ChatRequest):
-    resume_text = read_pdf(Path("Aditya_Biswal_ATS_Resume.pdf"))
-    resume=parse_resume(resume_text)
-    answer=ask_candidate(request.question, resume)
-    return {"answer": answer}
     
