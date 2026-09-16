@@ -9,24 +9,21 @@ from pydantic import BaseModel
 load_dotenv()
 
 class Experience(BaseModel):
-    company : str | None = None
-    role : str | None = None
-    duraction : str | None = None
-    description : str | None = None
-    skills_used : list[str] = []
-
+    company: str | None
+    role: str | None
+    duration: str | None
+    description: str | None
+    skills_used: list[str]
 class Resume(BaseModel):
-    name : str | None = None
-    email : str | None = None
-    phone : str | None = None
-
-    total_experience_years : float | None = None
-
-    skills : list[str] = []
-    experience : list[str] = []
-    education : list[str] = []
-    project : list[str] = []
-    Certificate : list[str] = []
+    name: str | None
+    email: str | None
+    phone: str | None
+    total_experience_years: float | None
+    skills: list[str]
+    experience: list[Experience]
+    education: list[str]
+    project: list[str]
+    Certificate: list[str]
 resume_schema = Resume.model_json_schema()    
 
 class ChatRequest(BaseModel):
@@ -34,7 +31,7 @@ class ChatRequest(BaseModel):
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-model = "allam-2-7b"
+model = "openai/gpt-oss-20b"
 
 app= FastAPI()
 
@@ -44,14 +41,10 @@ from fastapi.middleware.cors import CORSMiddleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://monumental-bunny-d8b305.netlify.app",  # your live frontend
         "http://127.0.0.1:5500",
         "http://localhost:5500",
         "http://localhost:3000",
         "http://localhost:5173",
-        "http://127.0.0.1:8000",
-        "http://localhost:8000",
-        "*",  # allow any during local dev
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -65,11 +58,23 @@ cached_resume: Resume | None = None
 @app.on_event("startup")
 def load_resume():
     global cached_resume
-    resume_text = read_pdf(RESUME_PATH)
-    cached_resume = parse_resume(resume_text)
+
+    try:
+        resume_text = read_pdf(RESUME_PATH)
+        cached_resume = parse_resume(resume_text)
+        print("Resume parsed successfully.")
+
+    except Exception as e:
+        print(f"Failed to parse resume during startup: {e}")
+        cached_resume = None
 
 @app.post("/chat")
 def chat(request: ChatRequest):
+    if cached_resume is None:
+        return {
+            "answer": "Resume data is currently unavailable."
+        }
+
     answer = ask_candidate(request.question, cached_resume)
     return {"answer": answer}
 
@@ -106,14 +111,14 @@ def parse_resume(resume_text):
     - If a field's value is not available anywhere in the resume, return null for that field.
     - If a list-type field (e.g. skills, projects) has no matching content, return an empty list — 
       never null for list fields.
-    - Never omit a schema field. Every key in {resume_schema} must be present in your output, even 
-      if its value is null or [].
+    - Never omit a schema field.
+
     
+
     #OUTPUT FORMAT
-    Return ONLY valid JSON matching this exact schema — no markdown code fences, no preamble, no 
-    explanation, no trailing commentary:
-    
-    {resume_schema}
+
+    Return ONLY valid JSON matching this exact schema — no markdown code fences, no preamble, no
+    explanation, no trailing commentary
     """
     user_prompt = f"""
     Parse the following resume:
@@ -131,8 +136,13 @@ def parse_resume(resume_text):
 
     messages = [message_system, message_user]
     response_format = {
-        "type":"json_object"
+    "type": "json_schema",
+    "json_schema": {
+        "name": "resume",
+        "strict": True,
+        "schema": resume_schema
     }
+}
     response = client.chat.completions.create(model=model, response_format=response_format, messages=messages)
     raw_output = response.choices[0].message.content
     data = json.loads(raw_output)
