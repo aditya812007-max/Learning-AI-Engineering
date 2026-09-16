@@ -203,7 +203,7 @@ app.add_middleware(
 
 RESUME_PATH = (
     Path(__file__).parent /
-    "Aditya_Biswal_ATS_Resume.pdf"
+    "Aditya_Biswal_Resume.pdf"
 )
 
 cached_resume: Resume | None = None
