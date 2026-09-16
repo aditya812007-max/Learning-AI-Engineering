@@ -34,7 +34,7 @@ class ChatRequest(BaseModel):
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-model = "llama-3.3-70b-versatile"
+model = "allam-2-7b"
 
 app= FastAPI()
 
@@ -45,8 +45,15 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://monumental-bunny-d8b305.netlify.app",  # your live frontend
-        "http://127.0.0.1:5500",  # local dev, if you use Live Server — adjust to whatever you use
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:8000",
+        "http://localhost:8000",
+        "*",  # allow any during local dev
     ],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )

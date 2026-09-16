@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aditya Biswal | The Portfolio Cafe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="cafe-wrapper">
+    <!-- Full-screen pixel cafe background -->
+    <div class="cafe-bg"></div>
+
+    <!-- Ambient Steam Overlay -->
+    <div class="steam-container" id="steamContainer"></div>
+
+    <!-- TOP SECTION: Cafe Title + Single Chalkboard Menu -->
+    <header class="top-section">
+      <div class="cafe-title">
+        <span class="title-icon">☕</span>
+        <h1>ADITYA'S CODE CAFE</h1>
+        <span class="title-icon">⚡</span>
+      </div>
+      <p class="cafe-subtitle">EST. 2024 · AI & FULL STACK BREWERY</p>
+
+      <!-- Single Digital Chalkboard Menu Board -->
+      <nav class="chalkboard" aria-label="Cafe Menu Board">
+        <div class="chalk-header">✦ TODAY'S MENU ✦</div>
+        <div class="chalk-divider"></div>
+        <ul class="chalk-menu">
+          <li class="chalk-item" data-action="about" role="button" tabindex="0">
+            <span class="chalk-icon">📖</span>
+            <span class="chalk-label">About Me</span>
+            <span class="chalk-dots"></span>
+            <span class="chalk-price">ESP.01</span>
+          </li>
+          <li class="chalk-item" data-action="skills" role="button" tabindex="0">
+            <span class="chalk-icon">⚡</span>
+            <span class="chalk-label">Skills & Tech</span>
+            <span class="chalk-dots"></span>
+            <span class="chalk-price">FLV.02</span>
+          </li>
+          <li class="chalk-item" data-action="projects" role="button" tabindex="0">
+            <span class="chalk-icon">🚀</span>
+            <span class="chalk-label">Projects</span>
+            <span class="chalk-dots"></span>
+            <span class="chalk-price">REC.03</span>
+          </li>
+          <li class="chalk-item" data-action="resume" role="button" tabindex="0">
+            <span class="chalk-icon">📄</span>
+            <span class="chalk-label">Resume PDF</span>
+            <span class="chalk-dots"></span>
+            <span class="chalk-price">DOC.04</span>
+          </li>
+          <li class="chalk-item" data-action="contact" role="button" tabindex="0">
+            <span class="chalk-icon">📬</span>
+            <span class="chalk-label">Contact</span>
+            <span class="chalk-dots"></span>
+            <span class="chalk-price">CNT.05</span>
+          </li>
+        </ul>
+        <div class="chalk-footer">▸ Click any item to ask the Barista ◂</div>
+      </nav>
+    </header>
+
+    <!-- MIDDLE: Barista Character -->
+    <main class="counter-stage">
+      <div class="barista-container" id="baristaContainer">
+        <div class="barista-speech-bubble" id="baristaBubble">
+          <span class="speech-text">Hey there! Welcome to my cafe. Pull up a chair and ask me anything!</span>
+          <span class="bubble-arrow"></span>
+        </div>
+        <div class="barista-character">
+          <img src="assets/barista.jpg" alt="Barista Aditya" class="barista-image" id="baristaImg" />
+        </div>
+        <div class="counter-props">
+          <span class="prop-coffee" title="Fresh hot brew">☕</span>
+          <div class="order-bell" id="bellRing" title="Ring bell for barista!">🔔</div>
+        </div>
+      </div>
+    </main>
+
+    <!-- RPG / NPC Game Style Dialogue Interface -->
+    <section class="rpg-dialogue-section" id="dialogueSection">
+      <div class="rpg-dialogue-box">
+        <!-- Dialogue Header / Speaker Plate -->
+        <div class="dialogue-header">
+          <div class="speaker-nameplate">
+            <span class="status-dot"></span>
+            <span class="name">ADITYA [AI BARISTA]</span>
+            <span class="rpg-lvl">LVL.99</span>
+          </div>
+          <div class="dialogue-actions">
+            <button class="sound-toggle-btn" id="soundToggle" title="Toggle retro blip sound">🔊 SFX</button>
+            <button class="clear-chat-btn" id="clearChat" title="Clear dialogue history">↺ Clear</button>
+          </div>
+        </div>
+
+        <div class="dialogue-body">
+          <!-- NPC Portrait & Avatar Frame -->
+          <div class="dialogue-portrait-frame">
+            <img src="assets/barista.jpg" alt="Aditya Avatar" class="portrait-avatar" />
+            <div class="portrait-badge">READY</div>
+          </div>
+
+          <!-- Chat Content Area -->
+          <div class="dialogue-content">
+            <div class="chat-stream" id="chatStream">
+              <div class="message npc-message">
+                <div class="bubble-content">
+                  <p>"Hey! Welcome in. I'm Aditya's AI barista twin, loaded up with his actual resume, engineering background, projects, and stack. Ask me anything or pick a question below!"</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Suggestion Pills -->
+            <div class="quick-prompts">
+              <span class="quick-title">Quick Orders:</span>
+              <button class="prompt-chip" data-query="Give me a quick 3-sentence summary of Aditya's background.">✨ Summary</button>
+              <button class="prompt-chip" data-query="What are Aditya's top technical skills and AI experience?">⚡ Skills</button>
+              <button class="prompt-chip" data-query="What major projects has Aditya built, and what technologies did he use?">🚀 Projects</button>
+              <button class="prompt-chip" data-query="Why should we hire Aditya for an AI / Full-Stack Engineer role?">🎯 Why Hire?</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dialogue Input Box -->
+        <form class="dialogue-input-form" id="chatForm">
+          <div class="input-wrapper">
+            <span class="rpg-prompt-arrow">▶</span>
+            <input
+              type="text"
+              id="userInput"
+              class="rpg-text-input"
+              placeholder="Ask the Barista about Aditya..."
+              autocomplete="off"
+              required
+            />
+            <button type="submit" class="rpg-send-btn" id="sendBtn">
+              <span>SEND</span>
+              <span class="btn-arrow">⏎</span>
+            </button>
+          </div>
+          <div class="endpoint-indicator">
+            Connected to <span class="endpoint-url" id="endpointLabel">http://localhost:8000/chat</span>
+            <button type="button" id="configEndpointBtn" class="endpoint-config-btn" title="Change Backend URL">⚙️</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
