@@ -1,5 +1,5 @@
 // Backend API configuration
-const DEFAULT_API_BASE = "http://localhost:8000";
+const DEFAULT_API_BASE = "https://learning-ai-engineering.onrender.com";
 let apiBase = localStorage.getItem("cafe_api_base") || DEFAULT_API_BASE;
 
 // Web Audio API Retro Sound Synthesizer
