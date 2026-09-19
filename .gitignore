@@ -1,3 +1,13 @@
 .env
 week3/project_info__2.md
 week3/project_info__1.md
+.kilo/skills/jupyter-notebook/LICENSE
+.kilo/skills/jupyter-notebook/SKILL.md
+.kilo/skills/jupyter-notebook/assets/tutorial-template.ipynb
+.kilo/skills/jupyter-notebook/scripts/new_notebook.py
+.kilo/skills/jupyter-notebook/references/quality-checklist.md
+.kilo/skills/jupyter-notebook/references/experiment-patterns.md
+.kilo/skills/jupyter-notebook/references/manual-editing.md
+.kilo/skills/jupyter-notebook/references/notebook-structure.md
+.kilo/skills/jupyter-notebook/references/tutorial-patterns.md
+.kilo/skills/jupyter-notebook/assets/experiment-template.ipynb
